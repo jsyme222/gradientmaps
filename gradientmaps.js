@@ -48,7 +48,6 @@ window.GradientMaps = function(scope) {
 
             var stopsDeclArr = stopsDecl.split(',');
             var stops = [];
-
             matches.forEach(function(colorStop) {
                 var colorStopMatches = colorStop.match(/(?:((rgb|hsl)a?\(\d{1,3},\s*\d{1,3},\s*\d{1,3}(?:,\s*0?\.?\d+)?\)|\w+|#[0-9a-fA-F]{1,6})(\s+(?:0?\.\d+|\d{1,3}%))?)/);
                 if (colorStopMatches && colorStopMatches.length >= 4) {
@@ -120,7 +119,6 @@ window.GradientMaps = function(scope) {
 
                     i++;
                 }
-
                 if (stops[0].pos != 0) {
                     stops.unshift({
                         color: stops[0].color,
@@ -135,7 +133,6 @@ window.GradientMaps = function(scope) {
                     })
                 }
             }
-
             return stops;
         },
 
@@ -162,7 +159,6 @@ window.GradientMaps = function(scope) {
                 if (matched)
                     return nSegs;
             }
-
             return nSegs;
         },
 
@@ -177,7 +173,6 @@ window.GradientMaps = function(scope) {
             }
 
             colors[nSegs] = stops[stops.length-1].color;
-
             var i = 1;
             while (i < colors.length) {
                 if (!colors[i]) {
@@ -187,8 +182,9 @@ window.GradientMaps = function(scope) {
                     }
 
                     // Need to evenly distribute colors stops from svgStop[i-1] to svgStop[j]
-
+			
                     var startColor = colors[i-1];
+                    console.log(startColor);
                     var r = startColor[0];
                     var g = startColor[1];
                     var b = startColor[2];
@@ -283,7 +279,6 @@ window.GradientMaps = function(scope) {
             var greenTableValues = "";
             var blueTableValues = "";
             var alphaTableValues = "";
-
             colors.forEach(function(color, index, colors) {
                 redTableValues += (color[0] / 255.0 + " ");
                 greenTableValues += (color[1] / 255.0 + " ");
@@ -307,11 +302,19 @@ window.GradientMaps = function(scope) {
         },
 
         applyGradientMap: function(elem, gradient) {
+        /*
+        ***********************************************************
+        ***********************************************************
+        */
             var stops = this.calcStopsArray(gradient);
             var nSegs = this.findMatchingDistributedNSegs(stops);
             var colors = this.calcDistributedColors(stops, nSegs);
-
+		console.log(colors);
             this.addSVGComponentTransferFilter(elem, colors);
+        /*
+        ***********************************************************
+        ***********************************************************
+        */
         },
 
         removeGradientMap: function(elem) {
